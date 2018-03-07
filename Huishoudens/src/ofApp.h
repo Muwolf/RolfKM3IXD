@@ -1,24 +1,36 @@
 #pragma once
 
 #include "ofMain.h"
+#include "SQLiteCpp.h"
 
-class ofApp : public ofBaseApp{
+#define MAXCIRCLERADIUS 400
 
-	public:
-		void setup();
-		void update();
-		void draw();
+class ofApp : public ofBaseApp {
 
-		void keyPressed(int key);
-		void keyReleased(int key);
-		void mouseMoved(int x, int y );
-		void mouseDragged(int x, int y, int button);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		void mouseEntered(int x, int y);
-		void mouseExited(int x, int y);
-		void windowResized(int w, int h);
-		void dragEvent(ofDragInfo dragInfo);
-		void gotMessage(ofMessage msg);
-		
+public:
+	void setup();
+	void update();
+	void draw();
+
+	void mouseMoved(int x, int y);
+
+	string year;
+	int currentYear = 0;
+
+	int hhTotaal = 0; 
+	int hhSingle = 0; 
+	int hhMultiple = 0; 
+
+
+	int years[9] = { 1995,
+					 2000,
+					 2005,
+					 2010,
+					 2012,
+					 2013,
+					 2014,
+					 2015,
+					 2016 };
+
+	SQLite::Database* db;
 };
