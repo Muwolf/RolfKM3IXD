@@ -3,7 +3,7 @@
 #include "ofMain.h"
 #include "SQLiteCpp.h"
 
-#define MAXCIRCLERADIUS 400
+#define MAXSIZE 500
 
 class ofApp : public ofBaseApp {
 
@@ -13,13 +13,29 @@ public:
 	void draw();
 
 	void mouseMoved(int x, int y);
+	void keyPressed(int key);
 
 	string year;
 	int currentYear = 0;
 
-	int hhTotaal = 0; 
-	int hhSingle = 0; 
-	int hhMultiple = 0; 
+	float hhTotal = 0; 
+	float hhSingle = 0; 
+	float hhMultiple = 0; 
+	float hhMultipleNoKids = 0; 
+	float hhMultipleKids = 0; 
+	float hhMultipleNotMarried = 0; 
+	float hhMultipleMarried = 0; 
+	float hhMultipleSingleParent = 0; 
+
+	float hhKids;
+	float hhNoKids; 
+	float hhMarried; 
+	float hhNotMarried; 
+
+	bool ShowNumbers = true; 
+
+	ofTrueTypeFont font;
+	ofTrueTypeFont fontLarge;
 
 
 	int years[9] = { 1995,
