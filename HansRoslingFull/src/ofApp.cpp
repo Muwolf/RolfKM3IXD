@@ -30,29 +30,17 @@ void ofApp::setup() {
 	selectedYear = minYear;
 	currentYear = 0;
 
-	SQLite::Statement query(*db, "SELECT DISTINCT(country) FROM region");
+	/* SQLite::Statement query(*db, "SELECT * FROM region");
 	while (query.executeStep()) {
 		string country = query.getColumn("country").getText();
+		string region = query.getColumn("region").getText();
 		countryList.push_back(country);
+		regionList.push_back(region);
 	}
 
 	for (int i = 0; i < countryList.size(); i++) {
-		//regionQuery->bind(1, countryList[i]);
-		//while (regionQuery->executeStep()) {
-			//string region = query.getColumn("region").getText();
-			ofLog() << i << countryList[i]  << endl;
-		//}
-		//regionQuery->reset();
-	}
-
-
-
-
-
-	//const string& country = regionQuery->getColumn("country");
-	//regionByCountry[country] = regionQuery->getColumn("region");
-	//ofLog() << "country= " << regionQuery->getColumn("country")
-	//	<< "   region= " << regionQuery->getColumn("region"); 
+		ofLog() << countryList[i] << " is part of " << regionList[i] << endl;
+	}*/
 }
 
 
@@ -87,6 +75,8 @@ void ofApp::update() {
 			incomeByCountry[country] = incomeQuery->getColumn("income").getDouble();
 		}
 		incomeQuery->reset(); // zet de query weer terug naar de beginstand (met ?)
+
+		regionQuery-> bind(1, incomeByCountry)
 	}
 
 }
@@ -112,12 +102,12 @@ void ofApp::draw() {
 		<< " income=" << income << endl;
 		*/
 
-		if (population > 0 && health > 0 && income > 0) { // niet alle waarden bestaan in de db
+		if (population > 0 && health > 0 && income > 0) { 
 
 
 
-			/*string region = ofToString(regionByCountry[country]);
-
+			
+			/*
 			if (region == "Sub-Saharan Africa") {
 				ofSetHexColor(0x000000);
 			}

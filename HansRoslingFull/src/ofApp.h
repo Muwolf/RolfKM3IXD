@@ -26,7 +26,10 @@ private:
 	map<string, double> populationByCountry;
 	map<string, double> healthByCountry;
 	map<string, double> incomeByCountry;
+	map<string, string> regionByCountry; 
+
 	vector<string> countryList; 
+	vector<string> regionList; 
 
 	SQLite::Database* db;
 	SQLite::Statement* regionQuery;

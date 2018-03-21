@@ -1,0 +1,2 @@
+SELECT * FROM package LEFT JOIN client WHERE package.weight = 1.5 AND package.recipient = client.accountnumber;
+SELECT SUM(weight) FROM package LEFT JOIN client where package.sender = 2 AND client.accountnumber = 2;
