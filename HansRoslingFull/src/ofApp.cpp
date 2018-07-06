@@ -76,7 +76,7 @@ void ofApp::update() {
 		}
 		incomeQuery->reset(); // zet de query weer terug naar de beginstand (met ?)
 
-		regionQuery-> bind(1, incomeByCountry)
+		regionQuery->bind(1, incomeByCountry);
 	}
 
 }

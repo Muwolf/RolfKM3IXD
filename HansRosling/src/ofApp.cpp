@@ -21,11 +21,9 @@ void ofApp::draw() {
 	query.bind(1, years[currentYear]);
 
 	while (query.executeStep()) {
-		/*		ofLog() << query.getColumn("year") << " "
+		ofLog() << query.getColumn("year") << " "
 						<< query.getColumn("nl")
 						<< endl;
-		*/
-
 
 		currentPopulation_NL = ofLerp(currentPopulation_NL, query.getColumn("nl").getInt(), 0.01);
 
