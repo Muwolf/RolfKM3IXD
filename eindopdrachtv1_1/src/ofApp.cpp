@@ -19,8 +19,6 @@ void ofApp::update() {
 	routeQuery = new SQLite::Statement(*db, "SELECT o.id as id, o.city_id1 as id1, o.city_id2 as id2, distance_km as km, car_min as car, train_min as train, c.id as city_id, c.name as name, longitude as x, latitude as y FROM connection o LEFT JOIN city c ON o.city_id1 = c.id OR o.city_id2 = c.id ORDER BY c.id");
 	while (routeQuery->executeStep()) {
 
-		city1 = routeQuery->getColumn("id1").getInt();
-		city2 = routeQuery->getColumn("id2").getInt();
 		newCityId = routeQuery->getColumn("city_id").getInt();
 
 		if (newCityId != oldCityId) {
@@ -28,27 +26,31 @@ void ofApp::update() {
 			y = getY((routeQuery->getColumn("y")).getInt());
 			id = newCityId;
 			string name = (routeQuery->getColumn("name"));
-
-			if (city1 == newCityId) {
-				connectedTo.push_back(city2);
-			}
-			if (city2 == newCityId) {
-				connectedTo.push_back(city1);
-			}
-
-			ofLog() << connectedTo.size() << endl;
-
 			city.newCity(x, y, id, name, connectedTo);
 			cityList.push_back(city);
-			while (!connectedTo.empty()) {
-				connectedTo.pop_back();
-			}
-
 		}
 		oldCityId = newCityId;
 	}
+	routeQuery->reset();
 
+	while (routeQuery->executeStep()) {
+		city1 = routeQuery->getColumn("id1").getInt();
+		city2 = routeQuery->getColumn("id2").getInt();
+		for (int i = 0; i < cityList.size(); i++) {
+			if (city1 == cityList[i].id) {
+				cityList[i].connectedTo.push_back(city2);
+				
+			}
+			if (city2 == cityList[i].id) {
+				cityList[i].connectedTo.push_back(city1);
+			}
+		}
+
+	}
+	routeQuery->reset();
 }
+
+
 
 void ofApp::draw() {
 	ofTranslate(ofGetWidth() / 2, ofGetHeight() / 2);
@@ -59,7 +61,7 @@ void ofApp::draw() {
 	}
 
 	while (!cityList.empty()) {
-		cityList.pop_back(); 
+		cityList.pop_back();
 	}
 }
 

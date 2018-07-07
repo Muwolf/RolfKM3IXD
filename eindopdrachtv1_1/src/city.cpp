@@ -10,7 +10,7 @@ void city::newCity(int _x, int _y, int _id, string _name, vector<int> _connected
 	id = _id; 
 	name = _name; 
 	for (int i = 0; i < _connectedTo.size() ; i++) {
-		connectedTo[i] = _connectedTo[i]; 
+		connectedTo.push_back(_connectedTo[i]); 
 	}
 }
 
