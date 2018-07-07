@@ -16,13 +16,6 @@ void ofApp::setup() {
 
 void ofApp::update() {
 
-
-}
-
-void ofApp::draw() {
-	ofTranslate(ofGetWidth() / 2, ofGetHeight() / 2);
-	ofSetBackgroundColor(250, 242, 229);
-
 	routeQuery = new SQLite::Statement(*db, "SELECT o.id as id, o.city_id1 as id1, o.city_id2 as id2, distance_km as km, car_min as car, train_min as train, c.id as city_id, c.name as name, longitude as x, latitude as y FROM connection o LEFT JOIN city c ON o.city_id1 = c.id OR o.city_id2 = c.id ORDER BY c.id");
 	while (routeQuery->executeStep()) {
 
@@ -35,7 +28,7 @@ void ofApp::draw() {
 			y = getY((routeQuery->getColumn("y")).getInt());
 			id = newCityId;
 			string name = (routeQuery->getColumn("name"));
-		
+
 			if (city1 == newCityId) {
 				connectedTo.push_back(city2);
 			}
@@ -45,15 +38,21 @@ void ofApp::draw() {
 
 			ofLog() << connectedTo.size() << endl;
 
-			/*city.newCity(x, y, id, name, connectedTo);
-			cityList.push_back(city);*/
+			city.newCity(x, y, id, name, connectedTo);
+			cityList.push_back(city);
 			while (!connectedTo.empty()) {
-				connectedTo.pop_back(); 
+				connectedTo.pop_back();
 			}
-			
+
 		}
 		oldCityId = newCityId;
 	}
+
+}
+
+void ofApp::draw() {
+	ofTranslate(ofGetWidth() / 2, ofGetHeight() / 2);
+	ofSetBackgroundColor(250, 242, 229);
 
 	for (int i = 0; i < cityList.size(); i++) {
 		cityList[i].draw();
