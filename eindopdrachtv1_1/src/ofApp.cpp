@@ -20,7 +20,7 @@ void ofApp::setup() {
 
 void ofApp::update() {
 
-	cityQuery = new SQLite::Statement(*db, "SELECT o.id as id, o.city_id1 as id1, o.city_id2 as id2, c.id as city_id, c.name as name, longitude as x, latitude as y FROM connection o LEFT JOIN city c ON o.city_id1 = c.id OR o.city_id2 = c.id ORDER BY c.id");
+	cityQuery = new SQLite::Statement(*db, "SELECT o.city_id1 as id1, o.city_id2 as id2, c.id as city_id, c.name as name, longitude as x, latitude as y FROM connection o LEFT JOIN city c ON o.city_id1 = c.id OR o.city_id2 = c.id ORDER BY c.id");
 	while (cityQuery->executeStep()) {
 
 		newCityId = cityQuery->getColumn("city_id").getInt();
@@ -58,6 +58,7 @@ void ofApp::update() {
 		}
 	
 	}
+	routeQuery->reset(); 
 }
 
 
