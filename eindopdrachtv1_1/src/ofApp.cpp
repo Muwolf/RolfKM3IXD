@@ -1,7 +1,7 @@
 #include "ofApp.h"
 
 void ofApp::setup() {
-	
+
 	ofAddListener(arduino.EInitialized, this, &ofApp::setupArduino);
 
 	arduino.connect("COM3");
@@ -23,14 +23,16 @@ void ofApp::setup() {
 
 	font.load("Frutiger.otf", 15);
 
-	pinButtonNormal = 5; 
-	pinButtonCar = 6; 
+	pinButtonNormal = 5;
+	pinButtonCar = 6;
 	pinButtonTrain = 7;
-	pinButtonPod = 4; 
-	pinLerpPod = 0; 
+	pinButtonPod = 4;
+	pinLerpPod = 0;
 }
 
 void ofApp::update() {
+
+	arduino.update();
 
 	cityQuery = new SQLite::Statement(*db, "SELECT o.city_id1 as id1, o.city_id2 as id2, c.id as city_id, c.name as name, longitude as x, latitude as y FROM connection o LEFT JOIN city c ON o.city_id1 = c.id OR o.city_id2 = c.id ORDER BY c.id");
 	while (cityQuery->executeStep()) {
@@ -69,15 +71,13 @@ void ofApp::update() {
 					cityList[i].y = adjustLocation(train, cityList[i].y);
 				}
 				else if (map == 4) {
-					if (cityList[i].name != "Utrecht") {
-						if (selector < 1) {
-							cityList[i].x = ofLerp(adjustLocation(car, cityList[i].x), cityList[i].x, selector);
-							cityList[i].y = ofLerp(adjustLocation(car, cityList[i].y), cityList[i].y, selector);
-						}
-						else {
-							cityList[i].x = ofLerp(cityList[i].x, adjustLocation(train, cityList[i].x), selector - 1);
-							cityList[i].y = ofLerp(cityList[i].y, adjustLocation(train, cityList[i].y), selector - 1);
-						}
+					if (selector < 1) {
+						cityList[i].x = ofLerp(adjustLocation(car, cityList[i].x), cityList[i].x, selector);
+						cityList[i].y = ofLerp(adjustLocation(car, cityList[i].y), cityList[i].y, selector);
+					}
+					else {
+						cityList[i].x = ofLerp(cityList[i].x, adjustLocation(train, cityList[i].x), selector - 1);
+						cityList[i].y = ofLerp(cityList[i].y, adjustLocation(train, cityList[i].y), selector - 1);
 					}
 				}
 			}
@@ -130,13 +130,12 @@ void ofApp::draw() {
 }
 
 void ofApp::setupArduino(const int& version) {
+	ofLog() << "setting up" << endl;
 
-	//Look for arduino, and show firmware
 	ofLog() << "Arduino firmware found " << arduino.getFirmwareName()
 		<< arduino.getMajorFirmwareVersion()
 		<< arduino.getMinorFirmwareVersion() << endl;
 
-	//Setup pins
 	arduino.sendDigitalPinMode(pinButtonNormal, ARD_INPUT);
 	arduino.sendDigitalPinMode(pinButtonCar, ARD_INPUT);
 	arduino.sendDigitalPinMode(pinButtonTrain, ARD_INPUT);
@@ -149,7 +148,9 @@ void ofApp::setupArduino(const int& version) {
 }
 
 void ofApp::analogPinChanged(const int& pin) {
-	selector = ofMap(arduino.getAnalog(pinLerpPod), 0, 1023, 0, 2);
+	int podValue = arduino.getAnalog(pinLerpPod);
+	selector = ofMap(podValue, 0, 1023, 0, 2);
+	ofLog() << podValue << " " << selector << endl;
 }
 
 void ofApp::digitalPinChanged(const int& pin) {
@@ -172,30 +173,36 @@ void ofApp::digitalPinChanged(const int& pin) {
 }
 
 void ofApp::keyPressed(int key) {
-	/*
-	if (key == 'z' || key == 'Z') {
-		map = 1;
-		ofLog() << "Normal map" << endl;
+
+	if (key == ' ') {
+		arduinoUse = !arduinoUse; 
 	}
-	if (key == 'x' || key == 'X') {
-		map = 2;
-		ofLog() << "Car map" << endl;
+
+	if (!arduinoUse) {
+		if (key == 'z' || key == 'Z') {
+			map = 1;
+			ofLog() << "Normal map" << endl;
+		}
+		if (key == 'x' || key == 'X') {
+			map = 2;
+			ofLog() << "Car map" << endl;
+		}
+		if (key == 'c' || key == 'C') {
+			map = 3;
+			ofLog() << "Train map" << endl;
+		}
+		if (key == 'v' || key == 'V') {
+			map = 4;
+			ofLog() << "Lerp Map" << endl;
+		}
 	}
-	if (key == 'c' || key == 'C') {
-		map = 3;
-		ofLog() << "Train map" << endl;
-	}
-	if (key == 'v' || key == 'V') {
-		map = 4;
-		ofLog() << "Lerp Map" << endl;
-	}
-	*/
+
 }
 
 void ofApp::mouseMoved(int x, int y) {
-	/*
-	selector = ofMap(x, 20, ofGetWidth() - 20, 0, 2);
-	*/
+	if (!arduinoUse) {
+		selector = ofMap(x, 20, ofGetWidth() - 20, 0, 2);
+	}
 }
 
 
