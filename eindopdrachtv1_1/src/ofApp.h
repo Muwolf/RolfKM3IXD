@@ -10,46 +10,53 @@ public:
 	void setup();
 	void update();
 	void draw();
+	void mouseMoved(int x, int y);
 	int getX(int value);
 	int getY(int value);
+	int adjustLocation(int value, int oldValue);
 
+	float selector; 
 	vector<city> cityList;
-	vector<int> connectedTo;
 	city city;
 
-	int x = 0;
-	int y = 0;
-	int x2 = 0;
-	int y2 = 0;
-	int id = 0;
-	string name = "";
+	//To do: alle losse variable voor X en Y vervangen met een double of een ofVec2f. Zoek later wel uit hoe dat ook alweer werkte. 
+	int x;
+	int y;
+	int carX;
+	int carY;
+	int trainX;
+	int trainY;
+	int cityX1;
+	int cityY1;
+	int cityX2;
+	int cityY2; 
 
-	int i;
+	int id;
+	string name;
+	string routeSelector; 
 
 
 private:
 
 	SQLite::Database* db;
 	SQLite::Statement* routeQuery;
+	SQLite::Statement* cityQuery;
 
-	int middleX = 0;
-	int middleY = 0;
+	int middleX;
+	int middleY;
+	int minX;
+	int maxX;
+	int minY;
+	int maxY;
+	float avgKm;
+	float modCar;
+	float modTrain;
+	
+	int oldCityId;
+	int newCityId;
 
-	int minX = 0;
-	int maxX = 0;
-	int minY = 0;
-	int maxY = 0;
-
-	int oldId = 0;
-	int newId = 0;
-
-	int oldCityId = 0;
-	int newCityId = 0;
-
-
-	int city1 = 0;
-	int city2 = 0;
-
-
-
+	int city1;
+	int city2;
+	int car; 
+	int train; 
 };

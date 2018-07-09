@@ -4,14 +4,15 @@ city::city()
 {
 }
 
-void city::newCity(int _x, int _y, int _id, string _name, vector<int> _connectedTo) {
-	x = _x; 
+void city::newCity(int _id, int _x, int _y, int _carX, int _carY, int _trainX, int _trainY, string _name) {
+	x = _x;
 	y = _y;
-	id = _id; 
-	name = _name; 
-	for (int i = 0; i < _connectedTo.size() ; i++) {
-		connectedTo.push_back(_connectedTo[i]); 
-	}
+	carX = _carX;
+	carY = _carY;
+	trainX = _trainX;
+	trainY = _trainY; 
+	id = _id;
+	name = _name;
 }
 
 void city::draw() {
