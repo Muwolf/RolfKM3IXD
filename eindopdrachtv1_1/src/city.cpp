@@ -4,22 +4,25 @@ city::city()
 {
 }
 
-void city::newCity(int _id, int _x, int _y, int _carX, int _carY, int _trainX, int _trainY, string _name) {
+void city::newCity(int _id, int _x, int _y, ofTrueTypeFont _font, string _name) {
+	id = _id;
 	x = _x;
 	y = _y;
-	carX = _carX;
-	carY = _carY;
-	trainX = _trainX;
-	trainY = _trainY; 
-	id = _id;
 	name = _name;
+	font = _font;
+	stringWidth = font.stringWidth(name);
+	stringHeight = font.stringHeight("Standaart hoogte");
+
 }
 
 void city::draw() {
-	ofSetColor(255);
-	ofDrawCircle(x, y, 10);
 	ofSetColor(0);
+	ofDrawCircle(x, y, 10);
+	ofSetColor(255);
 	ofDrawCircle(x, y, 8);
-	ofDrawBitmapString(name, x - 25, y - 12);
+	ofSetColor(9, 40, 150);
+	ofDrawRectRounded((x - (stringWidth/2)), y - (stringHeight*2), stringWidth*1.2, stringHeight*1.4, stringHeight/4) ;
+	ofSetColor(255);
+	font.drawString(name, (x - (stringWidth / 2.45)), y - (stringHeight*1));
 }
 

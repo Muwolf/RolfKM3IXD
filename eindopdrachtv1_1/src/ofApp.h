@@ -11,6 +11,7 @@ public:
 	void update();
 	void draw();
 	void mouseMoved(int x, int y);
+	void keyPressed(int key);
 	int getX(int value);
 	int getY(int value);
 	int adjustLocation(int value, int oldValue);
@@ -35,6 +36,20 @@ public:
 	string name;
 	string routeSelector; 
 
+	int map = 1;
+
+	ofTrueTypeFont font;
+
+	int pinButtonNormal;
+	int pinButtonCar;
+	int pinButtonTrain;
+	int pinButtonPod;
+	int pinLerpPod;
+
+	ofArduino arduino;
+	void setupArduino(const int& version);
+	void analogPinChanged(const int& pin);
+	void digitalPinChanged(const int& pin);
 
 private:
 
@@ -59,4 +74,5 @@ private:
 	int city2;
 	int car; 
 	int train; 
+
 };
