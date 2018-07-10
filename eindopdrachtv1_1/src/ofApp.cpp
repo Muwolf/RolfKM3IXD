@@ -21,7 +21,7 @@ void ofApp::setup() {
 	modCar = (db->execAndGet("SELECT AVG(car_min) FROM connection").getInt()) / avgKm;
 	modTrain = (db->execAndGet("SELECT AVG(train_min) FROM connection").getInt()) / avgKm;
 
-	font.load("Frutiger.otf", 15);
+	font.load("Frutiger.otf", 10);
 
 	pinButtonNormal = 5;
 	pinButtonCar = 6;
@@ -112,6 +112,10 @@ void ofApp::draw() {
 			}
 
 			if (cityX1 != ofGetWidth() && cityY1 != ofGetHeight() && cityX2 != ofGetWidth() && cityY2 != ofGetHeight()) {
+				
+				ofSetColor(255);
+				ofSetLineWidth(7);
+				ofDrawLine(cityX1, cityY1, cityX2, cityY2);
 				ofSetColor(255, 179, 16);
 				ofSetLineWidth(5);
 				ofDrawLine(cityX1, cityY1, cityX2, cityY2);
