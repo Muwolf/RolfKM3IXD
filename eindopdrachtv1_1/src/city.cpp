@@ -21,8 +21,8 @@ void city::draw() {
 	ofSetColor(255);
 	ofDrawCircle(x, y, 8);
 	ofSetColor(9, 40, 150);
-	ofDrawRectRounded((x - (stringWidth/2)), y - (stringHeight*2), stringWidth*1.2, stringHeight*1.4, stringHeight/4) ;
+	ofDrawRectRounded((x - (stringWidth/1.7)), y - (stringHeight*2), stringWidth*1.2, stringHeight*1.4, stringHeight/4) ;
 	ofSetColor(255);
-	font.drawString(name, (x - (stringWidth / 2.45)), y - (stringHeight*1));
+	font.drawString(name, (x - (stringWidth / 2)), y - (stringHeight*1));
 }
 
